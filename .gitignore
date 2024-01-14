@@ -3,3 +3,9 @@
 /.vscode
 *.swp
 /.cache
+cmake-build-debug
+**/DS_Store
+node_modules
+package.json
+package-lock.json
+.idea
