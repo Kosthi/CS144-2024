@@ -4,6 +4,7 @@
 *.swp
 /.cache
 cmake-build-debug
+cmake-build-debug-remote-host
 **/DS_Store
 node_modules
 package.json
