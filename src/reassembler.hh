@@ -1,6 +1,7 @@
 #pragma once
 
 #include "byte_stream.hh"
+#include <map>
 
 class Reassembler
 {
@@ -42,4 +43,16 @@ public:
 
 private:
   ByteStream output_; // the Reassembler writes to this ByteStream
+  uint64_t bytes_pending_ { 0 };
+  std::map<uint64_t, std::string> buffer_ {};
+  bool is_last_substring_ { false };
+  uint64_t max_index_ { 0 };
+  uint64_t first_unassembled_index_ { 0 };
+  void check_left_right(
+    std::string& data,
+    const std::_Rb_tree_const_iterator<std::pair<const unsigned long, std::basic_string<char>>>& it,
+    uint64_t& begin_index,
+    const uint64_t& end_index,
+    uint64_t& first_index,
+    uint64_t& offset );
 };
