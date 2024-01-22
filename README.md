@@ -23,4 +23,8 @@ To format code: `cmake --build build --target format`
 
 [![check0.png](https://s11.ax1x.com/2024/01/20/pFEUeMD.png)](https://imgse.com/i/pFEUeMD)
 
-- [ ] Checkpoint 1: stitching substrings into a byte stream
+- [x] Checkpoint 1: stitching substrings into a byte stream
+
+[![check1.png](https://s11.ax1x.com/2024/01/23/pFZ2rUP.png)](https://imgse.com/i/pFZ2rUP)
+
+- [ ] Checkpoint 2: the TCP receiver
