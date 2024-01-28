@@ -17,7 +17,7 @@ void TCPReceiver::receive( TCPSenderMessage message )
   }
 
   uint64_t ab_seq = message.seqno.unwrap( zero_point_.value(), writer().bytes_pushed() );
-  // if SYN repeated, first_index will be UINT64_MAX, and no data will be inserted.
+  // if SYN repeated, first_index should be 0.
   reassembler_.insert( message.SYN ? 0 : ab_seq - 1, move( message.payload ), message.FIN );
 }
 
