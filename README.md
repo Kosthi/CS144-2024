@@ -27,4 +27,6 @@ To format code: `cmake --build build --target format`
 
 [![check1.png](https://s11.ax1x.com/2024/01/23/pFZ2rUP.png)](https://imgse.com/i/pFZ2rUP)
 
-- [ ] Checkpoint 2: the TCP receiver
+- [x] Checkpoint 2: the TCP receiver
+
+[![check2.png](https://s11.ax1x.com/2024/01/28/pFuEfbV.png)](https://imgse.com/i/pFuEfbV)
