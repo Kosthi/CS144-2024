@@ -30,3 +30,5 @@ To format code: `cmake --build build --target format`
 - [x] Checkpoint 2: the TCP receiver
 
 [![check2.png](https://s11.ax1x.com/2024/01/28/pFuEfbV.png)](https://imgse.com/i/pFuEfbV)
+
+- [ ] Checkpoint 3: the TCP sender
