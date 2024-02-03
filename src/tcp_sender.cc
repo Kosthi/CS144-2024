@@ -59,7 +59,6 @@ void TCPSender::push( const TransmitFunction& transmit )
 
     transmit( message );
 
-    // first_index_ += message.payload.size();
     abs_ackno_ += message.sequence_length();
     sequence_numbers_in_flight_ += message.sequence_length();
     msg_queue_.emplace( move( message ) );
