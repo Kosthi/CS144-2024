@@ -22,8 +22,11 @@ void TCPSender::push( const TransmitFunction& transmit )
     return;
   }
 
+  auto seqno = Wrap32::wrap( abs_ackno_, isn_ );
+
   // 限制从buffer中取出来的字节数
-  auto win = window_size_ == 0 ? 1 : window_size_ - sequence_numbers_in_flight_;
+  auto win
+    = window_size_ == 0 ? 1 : window_size_ - sequence_numbers_in_flight_ - static_cast<uint16_t>( seqno == isn_ );
 
   string out;
   while ( reader().bytes_buffered() and out.size() < win ) {
@@ -40,7 +43,6 @@ void TCPSender::push( const TransmitFunction& transmit )
 
   size_t len;
   string_view view( out );
-  auto seqno = Wrap32::wrap( abs_ackno_, isn_ );
 
   while ( !view.empty() || seqno == isn_ || ( !FIN_ && writer().is_closed() ) ) {
     len = min( view.size(), TCPConfig::MAX_PAYLOAD_SIZE );
@@ -85,21 +87,21 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
     return;
   }
 
+  // treat a '0' window size as equal to '1' but don't back off RTO
+  window_size_ = msg.window_size;
   uint64_t abs_seq_k = msg.ackno ? msg.ackno.value().unwrap( isn_, abs_old_ackno_ ) : 0;
 
   // 1.当前消息如果未确认，要始终接受前一个消息的窗口信息
   // 2.只要有ack发过来，就得更新窗口？
-  if ( ( msg.ackno.has_value() && abs_seq_k == abs_old_ackno_ ) || !msg.ackno.has_value() ) {
-    // treat a '0' window size as equal to '1' but don't back off RTO
-    window_size_ = msg.window_size;
-    return;
-  }
+  //  if ( ( msg.ackno.has_value() && abs_seq_k == abs_old_ackno_ ) || !msg.ackno.has_value() ) {
+  //    // treat a '0' window size as equal to '1' but don't back off RTO
+  //    window_size_ = msg.window_size;
+  //    return;
+  //  }
 
   // ack之间的比较应该使用绝对序列号，如果传输数据大于4GB，seqno就无法直接比较了
   // 此处不能与old_ackno_相同，否则计时器会被清0，并且不会弹出任何msg
   if ( abs_seq_k > abs_old_ackno_ && abs_seq_k <= abs_ackno_ ) {
-    // treat a '0' window size as equal to '1' but don't back off RTO
-    window_size_ = msg.window_size;
     abs_old_ackno_ = abs_seq_k;
 
     // 计时器清0
