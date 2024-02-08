@@ -53,8 +53,8 @@ private:
   uint16_t window_size_ { 1 };
   uint64_t abs_ackno_ { 0 };
   uint64_t abs_old_ackno_ { 0 };
-  uint64_t sequence_numbers_in_flight_ {0};
-  uint64_t consecutive_retransmissions_ {0};
+  uint16_t sequence_numbers_in_flight_ { 0 };
+  uint16_t consecutive_retransmissions_ { 0 };
   std::queue<TCPSenderMessage> msg_queue_ {};
   bool FIN_ { false };
 };

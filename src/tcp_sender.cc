@@ -29,7 +29,7 @@ void TCPSender::push( const TransmitFunction& transmit )
     = window_size_ == 0 ? 1 : window_size_ - sequence_numbers_in_flight_ - static_cast<uint16_t>( seqno == isn_ );
 
   string out;
-  while ( reader().bytes_buffered() and out.size() < win ) {
+  while ( reader().bytes_buffered() and static_cast<uint16_t>( out.size() ) < win ) {
     auto view = reader().peek();
 
     if ( view.empty() ) {
