@@ -122,7 +122,9 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
 
 void TCPSender::tick( uint64_t ms_since_last_tick, const TransmitFunction& transmit )
 {
-  timer_ms += ms_since_last_tick;
+  if (!msg_queue_.empty()) {
+    timer_ms += ms_since_last_tick;
+  }
   // 如果在重传之前收到ack并且队列为空，则不需要重传了，此时timer相关信息已经清0
   if ( timer_ms >= RTO_ms_ ) {
     if ( !msg_queue_.empty() ) {

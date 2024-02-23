@@ -5,6 +5,7 @@
 #include <span>
 #include <sstream>
 #include <string>
+#include "tcp_minnow_socket.hh"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ void get_URL( const string& host, const string& path )
   oss << "GET " << path << " HTTP/1.1\r\n"
       << "Host: " << host << "\r\n"
       << "Connection: close\r\n\r\n";
-  TCPSocket socket = TCPSocket();
+  CS144TCPSocket socket = CS144TCPSocket();
   Address address = Address( host, "http" );
   socket.connect( address );
   socket.write( oss.str() );
