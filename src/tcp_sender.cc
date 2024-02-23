@@ -122,15 +122,16 @@ void TCPSender::receive( const TCPReceiverMessage& msg )
 
 void TCPSender::tick( uint64_t ms_since_last_tick, const TransmitFunction& transmit )
 {
-  timer_ms += ms_since_last_tick;
+  // timer stopped when queue is empty
+  if ( !msg_queue_.empty() ) {
+    timer_ms += ms_since_last_tick;
+  }
   // 如果在重传之前收到ack并且队列为空，则不需要重传了，此时timer相关信息已经清0
   if ( timer_ms >= RTO_ms_ ) {
-    if ( !msg_queue_.empty() ) {
-      transmit( msg_queue_.front() );
-      if ( window_size_ > 0 ) {
-        ++consecutive_retransmissions_;
-        RTO_ms_ <<= 1;
-      }
+    transmit( msg_queue_.front() );
+    if ( window_size_ > 0 ) {
+      ++consecutive_retransmissions_;
+      RTO_ms_ <<= 1;
     }
     timer_ms = 0;
   }
