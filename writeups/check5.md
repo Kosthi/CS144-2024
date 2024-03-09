@@ -1,59 +1,57 @@
 Checkpoint 5 Writeup
 ====================
 
-My name: [Koschei]
+**Name:** Koschei
 
-My SUNet ID: [210405317]
-
-I collaborated with: [list sunetids here]
-
-I would like to thank/reward these classmates for their help: [list sunetids here]
-
-This checkpoint took me about [n] hours to do. I [did not] attend the lab session.
-
-Program Structure and Design of the NetworkInterface:
+This checkpoint took me about _n_ hours to complete. I did not attend the lab session.
 
 ## Program Structure
 
-// IP-to-Ethernet mappings
+The program uses the following key data structures:
+
+```c++
+// Mapping from IP to Ethernet
 std::unordered_map<size_t, std::pair<size_t, EthernetAddress>> mp_ {};
-// arp request mappings 
+
+// Mapping for ARP requests
 std::unordered_map<size_t, std::pair<size_t, EthernetFrame>> arp_send_ {};
-// system timer
+
+// System timer
 size_t cur_time { 0 };
+```
+
+These data structures are used to manage the IP-to-Ethernet mappings, ARP requests, and the system timing.
 
 ## Function Implementation
 
-### send_datagram
-ip和物理地址映射表包含目标ip，封装成以太网帧直接发送，否则，根据ip判断arp请求报文是否被发送，若无，则发送并将当前数据报文存入待发送数据报队列，否则直接返回。
+### Function: `send_datagram`
 
-### recv_frame
+This function is responsible for sending datagrams. If the IP-to-Ethernet mapping table contains the target IP, the function wraps the message into an Ethernet frame and sends it directly. If the target IP is not in the mapping table, the function checks if an ARP request message has been sent for this IP. If not, it sends an ARP request and stores the current datagram in the queue of datagrams to be sent. If an ARP request has already been sent, the function simply returns without doing anything.
 
-#### ARP请求报文
-非目标主机ip，更新ip和物理地址映射表。
-为目标主机ip，更新ip和物理地址映射表，并发送arp响应报文
+### Function: `recv_frame`
 
-#### ARP响应报文
-为明确转发给目标主机ip，目标主机更新ip和物理地址映射表，并发送用户数据报
+This function handles the received frames. The behavior of this function depends on the type of the received frame:
 
-#### 用户数据报文
-为目标主机MAC地址，接收并存入数据报队列，否则拒绝
+#### ARP Request Message
 
-### tick
-#### 更新当前时间
-#### 检查mappings
-arp请求报文超时更新时间戳并重传，IP-to-Ethernet mapping超时删除
+- If the target host IP does not match the IP in the request, the function updates the IP-to-Ethernet mapping table.
+- If the target host IP matches the IP in the request, the function updates the IP-to-Ethernet mapping table and sends an ARP response message.
 
-Implementation Challenges:
-[]
+#### ARP Response Message
 
-Remaining Bugs:
-[]
+- If the message is explicitly forwarded to the target host IP, the host updates the IP-to-Ethernet mapping table and sends the user datagram.
 
-- Optional: I had unexpected difficulty with: [describe]
+#### User Datagram Message
 
-- Optional: I think you could make this lab better by: [describe]
+- If the target host MAC address matches the MAC address in the message, the function receives the message and stores it in the datagram queue. Otherwise, it rejects the message.
 
-- Optional: I was surprised by: [describe]
+### Function: `tick`
 
-- Optional: I'm not sure about: [describe]
+This function is called periodically to perform maintenance tasks:
+
+- It updates the current time.
+- It checks the mappings. If an ARP request message is timed out, it updates the timestamp and retransmits the message. If an IP-to-Ethernet mapping is timed out, it removes the mapping.
+
+## Test Passed
+
+![check5.png](https://ph-bed.oss-cn-beijing.aliyuncs.com/cs144/check5.png)
