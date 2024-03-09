@@ -19,18 +19,13 @@ To run clang-tidy (which suggests improvements): `cmake --build build --target t
 
 To format code: `cmake --build build --target format`
 
-- [x] Checkpoint 0: networking warmup
+## My Labs Implementation Progress
 
-[![check0.png](https://s11.ax1x.com/2024/01/20/pFEUeMD.png)](https://imgse.com/i/pFEUeMD)
-
-- [x] Checkpoint 1: stitching substrings into a byte stream
-
-[![check1.png](https://s11.ax1x.com/2024/01/23/pFZ2rUP.png)](https://imgse.com/i/pFZ2rUP)
-
-- [x] Checkpoint 2: the TCP receiver
-
-[![check2.png](https://s11.ax1x.com/2024/01/28/pFuEfbV.png)](https://imgse.com/i/pFuEfbV)
-
-- [x] Checkpoint 3: the TCP sender
-
-[![check3.png](https://s11.ax1x.com/2024/02/03/pFQvD3t.png)](https://imgse.com/i/pFQvD3t)
+- [x] **Checkpoint 0: Networking Warmup** - [View Details](https://s11.ax1x.com/2024/01/20/pFEUeMD.png)
+- [x] **Checkpoint 1: Stitching Substrings into a Byte Stream** - [View Details](https://s11.ax1x.com/2024/01/23/pFZ2rUP.png)
+- [x] **Checkpoint 2: The TCP Receiver** - [View Details](https://s11.ax1x.com/2024/01/28/pFuEfbV.png)
+- [x] **Checkpoint 3: The TCP Sender** - [View Details](https://s11.ax1x.com/2024/02/03/pFQvD3t.png)
+- [ ] **Checkpoint 4: Interoperating in the Real World**
+- [x] **Checkpoint 5: Down the Stack to the Network Interface** - [View Details](https://github.com/Kosthi/Simple-TCP/blob/check5/writeups/check5.md)
+- [ ] **Checkpoint 6: Building an IP Router**
+- [ ] **Checkpoint 7: Putting It All Together**
