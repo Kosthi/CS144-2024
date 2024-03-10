@@ -20,11 +20,50 @@ void Router::add_route( const uint32_t route_prefix,
        << static_cast<int>( prefix_length ) << " => " << ( next_hop.has_value() ? next_hop->ip() : "(direct)" )
        << " on interface " << interface_num << "\n";
 
-  // Your code here.
+  route_table_.emplace( prefix_length, std::make_tuple( route_prefix, next_hop, interface_num ) );
 }
 
 // Go through all the interfaces, and route every incoming datagram to its proper outgoing interface.
 void Router::route()
 {
-  // Your code here.
+  for ( auto& interface : _interfaces ) {
+    while ( !interface->datagrams_received().empty() ) {
+      auto& datagram = interface->datagrams_received().front();
+
+      // decrements the datagram’s TTL optimize
+      if ( datagram.header.ttl <= 1 ) {
+        interface->datagrams_received().pop();
+        continue;
+      }
+
+      // if (datagram.header)
+      for ( auto& route : route_table_ ) {
+        uint32_t prefix;
+        // 默认路由
+        if ( route.first == 0 ) {
+          prefix = 0;
+        } else {
+          // ！右移32位或以上是未定义行为，不会发送改变
+          prefix = (datagram.header.dst >> ( 32 - route.first )) << ( 32 - route.first );
+        }
+        // 前缀匹配
+        if ( get<0>( route.second ) == prefix ) {
+          --datagram.header.ttl;
+          datagram.header.compute_checksum();
+
+          if ( get<1>( route.second ) ) {
+            _interfaces[get<2>( route.second )]->send_datagram( datagram, get<1>( route.second ).value() );
+          } else {
+            _interfaces[get<2>( route.second )]->send_datagram( datagram,
+                                                                Address::from_ipv4_numeric( datagram.header.dst ) );
+          }
+
+          break;
+        }
+      }
+
+      // drop or already send
+      interface->datagrams_received().pop();
+    }
+  }
 }

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <optional>
+#include <tuple>
 
 #include "exception.hh"
 #include "network_interface.hh"
@@ -35,4 +37,7 @@ public:
 private:
   // The router's collection of network interfaces
   std::vector<std::shared_ptr<NetworkInterface>> _interfaces {};
+
+  // route table 按前缀位数升序
+  std::multimap<size_t, std::tuple<size_t, std::optional<Address>, size_t>, std::greater<>> route_table_ {};
 };
