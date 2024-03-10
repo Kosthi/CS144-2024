@@ -44,7 +44,7 @@ void Router::route()
           prefix = 0;
         } else {
           // ！右移32位或以上是未定义行为，不会发送改变
-          prefix = (datagram.header.dst >> ( 32 - route.first )) << ( 32 - route.first );
+          prefix = ( datagram.header.dst >> ( 32 - route.first ) ) << ( 32 - route.first );
         }
         // 前缀匹配
         if ( get<0>( route.second ) == prefix ) {
