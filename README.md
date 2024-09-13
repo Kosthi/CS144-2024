@@ -25,7 +25,7 @@ To format code: `cmake --build build --target format`
 - [x] **Checkpoint 1: Stitching Substrings into a Byte Stream** - [View Details](https://s11.ax1x.com/2024/01/23/pFZ2rUP.png)
 - [x] **Checkpoint 2: The TCP Receiver** - [View Details](https://s11.ax1x.com/2024/01/28/pFuEfbV.png)
 - [x] **Checkpoint 3: The TCP Sender** - [View Details](https://s11.ax1x.com/2024/02/03/pFQvD3t.png)
-- [ ] **Checkpoint 4: Interoperating in the Real World**
+- [x] **Checkpoint 4: Interoperating in the Real World** - [View Details](https://github.com/Kosthi/CS144-PingAnalysis)
 - [x] **Checkpoint 5: Down the Stack to the Network Interface** - [View Details](https://github.com/Kosthi/Simple-TCP/blob/check5/writeups/check5.md)
 - [ ] **Checkpoint 6: Building an IP Router**
 - [ ] **Checkpoint 7: Putting It All Together**
